@@ -7,6 +7,14 @@ function getFilesInDir(folder){
             if(err)
                 reject(err)
             
+            files = files.filter((filesInFolder) => {
+                if(!filesInFolder.includes("crop_")){
+                    console.log(filesInFolder)
+                    return filesInFolder
+                }
+            })
+            console.log(files)
+
             resolve(files)
         });
     })
@@ -21,7 +29,7 @@ async function cropImage(path,x,y,width,height){
     jimp.read(path)
     .then(image => {
         console.log(image)
-        image.crop( x, y, width, height ).quality(60).write(`${path.replace(`${name[name.length-1].split('.')[0]}.${ext[ext.length-1]}`,"")}/crop_${name[name.length-1].split('.')[0]}.${ext[ext.length-1]}`)
+        image.crop( x, y, width, height ).quality(60).write(`${path.replace(`${name[name.length-1].split('.')[0]}.${ext[ext.length-1]}`,"")}/crop_${name[name.length-1].split('.')[0]}_${Date.now()}.${ext[ext.length-1]}`)
     })
     .catch(err => {
       
