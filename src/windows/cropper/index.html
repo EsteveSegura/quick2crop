@@ -36,6 +36,12 @@
     let count = 0;
     let cropper;
 
+    document.body.onkeyup = function(e){
+      if(e.keyCode == 32){
+        onclick1()
+      }
+    }
+
     ipcRenderer.on('getFiles', (event, files) => {
       let image = document.getElementById('image');
       filesToCrop = files.files;
@@ -62,7 +68,7 @@
       }
       
       dataFilesCropped.push(actualCrop);
-      setTimeout(() => { cropper.clear(); }, 5);
+      setTimeout(() => { cropper.clear(); }, 100);
       count++;
       if(filesToCrop.length==0){
         let canvasDiv = document.getElementById('croper')
@@ -96,7 +102,7 @@
         }
       });
 
-      setTimeout(() => { cropper.clear(); }, 5);
+      setTimeout(() => { cropper.clear(); }, 100);
     }
 
     window.addEventListener('DOMContentLoaded', function () {
