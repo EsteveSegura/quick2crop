@@ -1,0 +1,24 @@
+{
+  "name": "quick2crop",
+  "version": "0.0.1",
+  "description": "software for fast cropping images",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "crop",
+    "image",
+    "standalone",
+    "windows",
+    "osx",
+    "mac",
+    "windows",
+    "linux"
+  ],
+  "author": "GiR",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^6.0.12"
+  }
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Quick2Crop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="img-container" style="visibility: hidden; position: absolute ;">
+      <img id="image"
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMzk2fQ&w=1000&q=80"
+        alt="Picture">
+    </div>
+    <h3>Canvas</h3>
+    <button onclick="onclick1()">Open Folder</button>
+    <button onclick="onStart()">Start</button>
+    <div class="img-container croper">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+
+  <script>
+    const { ipcRenderer } = require('electron')
+    let dataFilesCropped = [];
+    let filesToCrop = [];
+    let actualCrop = {};
+    let filesDir = "";
+    let cropper;
+
+    ipcRenderer.on('getFiles', (event, files) => {
+      let image = document.getElementById('image');
+      filesToCrop = files.files;
+      filesDir = files.dir;
+      //image.src = `${filesDir}/${filesToCrop[0]}`
+      /*if(image.complete) {
+        start.call(image);
+      }else{
+        image.onload = start;
+      }*/
+    });
+
+    function onStart(){
+      if(image.complete) {
+        start.call(image);
+      }else{
+        image.onload = start;
+      }
+    }
+
+    function onclick1(){
+      cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+      setTimeout(() => { cropper.clear(); }, 5);
+
+      dataFilesCropped.push(actualCrop);
+      filesToCrop.shift()
+      console.log(dataFilesCropped)
+    }
+
+    function start() {
+      let width = this.offsetWidth;
+      let height = this.offsetHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(
+        this,
+        0, 0, this.naturalWidth, this.naturalHeight,
+        0, 0, width, height
+      );
+
+      cropper = new Cropper(canvas, {
+        crop(event) {
+          actualCrop = {
+            fileName: `${filesDir}/${filesToCrop[0]}`,
+            x: event.detail.x,
+            y: event.detail.y,
+            width: event.detail.width,
+            height: event.detail.height
+          }
+        }
+      });
+
+      setTimeout(() => { cropper.clear(); }, 5);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      let canvas = document.getElementById('canvas');
+      let image = document.getElementById('image');
+
+    });
+  </script>
+</body>
+
+</html>
