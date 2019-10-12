@@ -48,14 +48,6 @@
       }
     });
 
-    function onStart(){
-      if(image.complete) {
-        start.call(image);
-      }else{
-        image.onload = start;
-      }
-    }
-    
     function onclick1(){
       console.log(filesToCrop)
       if(count == 0){
@@ -70,12 +62,10 @@
       }
       
       dataFilesCropped.push(actualCrop);
-      console.log(dataFilesCropped)
       setTimeout(() => { cropper.clear(); }, 5);
       count++;
       if(filesToCrop.length==0){
         let canvasDiv = document.getElementById('croper')
-        console.log(canvasDiv)
         cropper.destroy()
         canvasDiv.parentNode.removeChild(canvasDiv)
       }
@@ -94,6 +84,7 @@
       );
 
       cropper = new Cropper(canvas, {
+        background: false,
         crop(event) {
           actualCrop = {
             fileName: `${filesDir}/${filesToCrop[0]}`,
