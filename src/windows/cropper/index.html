@@ -17,10 +17,9 @@
         src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMzk2fQ&w=1000&q=80"
         alt="Picture">
     </div>
-    <h3>Canvas</h3>
-    <button onclick="onclick1()">Open Folder</button>
-    <button onclick="onStart()">Start</button>
-    <div class="img-container croper">
+    <h3>Quick2Crop</h3>
+    <button onclick="onclick1()">Next</button>
+    <div id="croper" class="img-container croper">
       <canvas id="canvas"></canvas>
     </div>
   </div>
@@ -34,18 +33,19 @@
     let filesToCrop = [];
     let actualCrop = {};
     let filesDir = "";
+    let count = 0;
     let cropper;
 
     ipcRenderer.on('getFiles', (event, files) => {
       let image = document.getElementById('image');
       filesToCrop = files.files;
       filesDir = files.dir;
-      //image.src = `${filesDir}/${filesToCrop[0]}`
-      /*if(image.complete) {
+      image.src = `${filesDir}/${filesToCrop[0]}`
+      if(image.complete) {
         start.call(image);
       }else{
         image.onload = start;
-      }*/
+      }
     });
 
     function onStart(){
@@ -55,14 +55,30 @@
         image.onload = start;
       }
     }
-
+    
     function onclick1(){
-      cropper.replace(`${filesDir}/${filesToCrop[0]}`)
-      setTimeout(() => { cropper.clear(); }, 5);
-
+      console.log(filesToCrop)
+      if(count == 0){
+        filesToCrop.shift()
+        cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+      }else if(count == 1){
+        filesToCrop.shift()
+        cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+      }else{
+        filesToCrop.shift()
+        cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+      }
+      
       dataFilesCropped.push(actualCrop);
-      filesToCrop.shift()
       console.log(dataFilesCropped)
+      setTimeout(() => { cropper.clear(); }, 5);
+      count++;
+      if(filesToCrop.length==0){
+        let canvasDiv = document.getElementById('croper')
+        console.log(canvasDiv)
+        cropper.destroy()
+        canvasDiv.parentNode.removeChild(canvasDiv)
+      }
     }
 
     function start() {
