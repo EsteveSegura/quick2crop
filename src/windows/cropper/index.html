@@ -74,7 +74,12 @@
         let canvasDiv = document.getElementById('croper')
         cropper.destroy()
         canvasDiv.parentNode.removeChild(canvasDiv)
+        sendPictureToCut()
       }
+    }
+
+    function sendPictureToCut(){
+      ipcRenderer.send('filesToCrop', dataFilesCropped)
     }
 
     function start() {
@@ -99,6 +104,7 @@
             width: event.detail.width,
             height: event.detail.height
           }
+          console.log(actualCrop)
         }
       });
 

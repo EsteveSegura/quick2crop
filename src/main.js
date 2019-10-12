@@ -50,7 +50,7 @@ function createWindow() {
         {
           label: 'About Electron',
           click: function () {
-            electron.shell.openExternal('http://electron.atom.io');
+            alert("GiR!")
           },
           accelerator: 'CmdOrCtrl + Shift + H'
         }
@@ -61,7 +61,7 @@ function createWindow() {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  //win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null
@@ -70,6 +70,14 @@ function createWindow() {
 }
 
 app.on('ready', createWindow)
+
+ipcMain.on('filesToCrop', async(event, arg) => {
+  console.log(arg) // prints "ping"
+  for(let i = 0 ; i < arg.length ; i++){
+    await utils.cropImage(arg[i].fileName,arg[i].x,arg[i].y,arg[i].width,arg[i].height)
+  }
+
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
