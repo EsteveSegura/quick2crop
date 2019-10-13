@@ -5,23 +5,29 @@
   <meta charset="UTF-8">
   <title>Quick2Crop</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Hepta+Slab&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div class="container">
+  <div id="close"> <img src="./svg/1727490.svg" width="10" alt=""> </div>
+  <div id="ui" class="container">
     <div class="img-container" style="visibility: hidden; position: absolute ;">
       <img id="image"
         src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMzk2fQ&w=1000&q=80"
         alt="Picture">
     </div>
     <h3>Quick2Crop</h3>
-    <button onclick="onclick1()">Next</button>
+    <button onclick="cropNextImage()">Next</button>
     <div id="croper" class="img-container croper">
       <canvas id="canvas"></canvas>
     </div>
+  </div>
+
+  <div id="warn">
+    Load folder... File -> Open Folder (Ctrl or CMD + O)
   </div>
 
 
@@ -36,66 +42,78 @@
     let count = 0;
     let cropper;
 
-    document.body.onkeyup = function(e){
-      if(e.keyCode == 32){
-        onclick1()
-      }
-    }
+    window.addEventListener('DOMContentLoaded', function () {
+      let canvas = document.getElementById('canvas');
+      let image = document.getElementById('image');
+      hideUI()
+    });
 
     ipcRenderer.on('getFiles', (event, files) => {
-      flushData()
+      hideWarn();
+      flushData();
+      showUI();
       let image = document.getElementById('image');
       filesToCrop = files.files;
       filesDir = files.dir;
       image.src = `${filesDir}/${filesToCrop[0]}`
-      if(count == 0){
+      if (count == 0) {
         count = 0;
-        if(image.complete) {
+        if (image.complete) {
           start.call(image);
-        }else{
+        } else {
           image.onload = start;
         }
       }
     });
 
-    function onclick1(){
-      console.log(filesToCrop)
-      if(count == 0){
+    function cropNextImage() {
+      if (count == 0) {
         filesToCrop.shift()
         cropper.replace(`${filesDir}/${filesToCrop[0]}`)
-      }else if(count == 1){
+      } else if (count == 1) {
         filesToCrop.shift()
         cropper.replace(`${filesDir}/${filesToCrop[0]}`)
-      }else{
+      } else {
         filesToCrop.shift()
         cropper.replace(`${filesDir}/${filesToCrop[0]}`)
       }
-      
+
       dataFilesCropped.push(actualCrop);
-      setTimeout(() => { cropper.clear(); }, 100);
+      setTimeout(() => { cropper.clear(); }, 50);
       count++;
-      if(filesToCrop.length==0){
+      if (filesToCrop.length == 0) {
         hideCanvas()
         sendPictureToCut()
+        hideUI()
         cropper.destroy()
       }
     }
 
-    function hideCanvas(){
+    function hideCanvas() {
       document.getElementById('croper').style.display = "none";
     }
 
-    function showCanvas(){
-      if(count != 0){
-      }
+    function showCanvas() {
       document.getElementById('croper').style.display = "block";
     }
 
-    function sendPictureToCut(){
+    function sendPictureToCut() {
       ipcRenderer.send('filesToCrop', dataFilesCropped)
     }
 
-    function flushData(){
+    function hideUI() {
+      document.getElementById('ui').style.display = "none";
+    }
+
+    function showUI() {
+      document.getElementById('ui').style.display = "block";
+    }
+
+    function hideWarn() {
+      document.getElementById('warn').style.display = "none";
+    }
+
+    function flushData() {
       dataFilesCropped = [];
       filesToCrop = [];
       actualCrop = {};
@@ -129,14 +147,20 @@
         }
       });
 
-      setTimeout(() => { cropper.clear(); }, 100);
+      setTimeout(() => { cropper.clear(); }, 50);
     }
 
-    window.addEventListener('DOMContentLoaded', function () {
-      let canvas = document.getElementById('canvas');
-      let image = document.getElementById('image');
 
+    document.body.onkeyup = function (e) {
+      if (e.keyCode == 32) {
+        cropNextImage()
+      }
+    }
+
+    document.getElementById('close').addEventListener('click', function () {
+      window.close();
     });
+
   </script>
 </body>
 

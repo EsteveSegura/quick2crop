@@ -6,8 +6,11 @@ let win
 function createWindow() {
   // Crea la ventana del navegador.
   win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 1620,
+    height: 780,
+    titleBarStyle: 'hidden',
+    frame: false,
+    backgroundColor: '#2e2c29',
     webPreferences: {
       nodeIntegration: true
     }
@@ -34,7 +37,8 @@ function createWindow() {
               }
               win.webContents.send('getFiles', allFiles);
             })
-          }
+          },
+          accelerator: 'CmdOrCtrl + O'
         },
         {
           type: 'separator'
@@ -50,7 +54,7 @@ function createWindow() {
         {
           label: 'About Electron',
           click: function () {
-            alert("GiR!")
+            console.log("GiR!")
           },
           accelerator: 'CmdOrCtrl + Shift + H'
         }
@@ -61,7 +65,7 @@ function createWindow() {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null

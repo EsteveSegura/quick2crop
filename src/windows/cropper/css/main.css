@@ -1,11 +1,33 @@
 body{
-    background-color: #2e2e2e;
+    margin:0;
+    padding: 0;
+    background-color: #313440;
+    color: #dee2f7;
+    overflow:hidden;
 }
 
 .croper{
-    width: 70%;
+    width: 100%;
 }
 
 .hide{
     display: none;
+}
+
+#close{
+    font-family: 'Hepta Slab', serif;
+    position: absolute;
+    padding: 8px;
+    background: #d9392a;
+    top: 0;
+    right: 0;
+}
+
+#warn{
+    margin-top: 26%;
+    width: 100%;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Hepta Slab', serif;
+    color: #63677e;
 }
