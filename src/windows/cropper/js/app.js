@@ -122,7 +122,7 @@ function start() {
      console.log(width)
      console.log(height)
      canvas.width = width;
-     canvas.height = height + 420;
+     canvas.height = height;
      canvas.getContext('2d').drawImage(
           this,
           0, 0, this.naturalWidth , this.naturalHeight ,
