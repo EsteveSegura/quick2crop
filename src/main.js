@@ -79,10 +79,10 @@ app.on('ready', createWindow)
 ipcMain.on('filesToCrop', async(event, arg) => {
   //console.log(arg) // prints "ping"
   for(let i = 0 ; i < arg.length ; i++){
-    console.log(arg[i].fileName.split('/')[0])
+    //console.log(arg[i].fileName.split('/')[0])
     await utils.cropImage(arg[i].fileName,arg[i].x,arg[i].y,arg[i].width,arg[i].height)
     if(i == arg.length - 1){
-      console.log("END")
+      //console.log("END")
       //await loading(arg[i].fileName.split('/')[0])
     }
   }

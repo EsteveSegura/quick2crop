@@ -8,13 +8,13 @@ function getFilesInDir(folder){
                 reject(err)
             
             files = files.filter((filesInFolder) => {
-                if(!filesInFolder.includes("crop_")){
-                    //console.log(filesInFolder)
-                    return filesInFolder
+                if(filesInFolder.includes(".jpg") || filesInFolder.includes(".png") || filesInFolder.includes(".jpeg")){
+                    if(!filesInFolder.includes("crop_") ){
+                        console.log(filesInFolder)
+                        return filesInFolder
+                    }
                 }
             })
-            //console.log(files)
-
             resolve(files)
         });
     })
@@ -33,11 +33,6 @@ function getLengthFilesInDir(folder){
         })
     }
 
-function findFilesInFolder(array){
-
-    
-}
-    
 function getLengthFilesInDirFiltered(folder){
     return new Promise((resolve,reject) =>{
         fs.readdir(folder, (err, files) => {
@@ -50,7 +45,6 @@ function getLengthFilesInDirFiltered(folder){
                     return filesInFolder
                 }
             })
-                
             resolve(files.length)
         });
     })
@@ -62,7 +56,7 @@ async function cropImage(path,x,y,width,height){
     let ext = path.split('.')
     let name = path.split('/')
     
-    console.log(`${path.replace(`${name[name.length-1].split('.')[0]}.${ext[ext.length-1]}`,"")}/crop_${name[name.length-1].split('.')[0]}_${Date.now()}.${ext[ext.length-1]}`)
+    //console.log(`${path.replace(`${name[name.length-1].split('.')[0]}.${ext[ext.length-1]}`,"")}/crop_${name[name.length-1].split('.')[0]}_${Date.now()}.${ext[ext.length-1]}`)
     jimp.read(path)
     .then(image => {
         //console.log(image)
