@@ -15,6 +15,7 @@ body{
 }
 
 #close{
+    -webkit-app-region: no-drag;
     font-family: 'Hepta Slab', serif;
     position: absolute;
     padding: 8px;
@@ -31,6 +32,30 @@ body{
     font-family: 'Hepta Slab', serif;
     color: #63677e;
 }
+
+#title{
+    margin-top: 7px;
+    margin-left: 4px;9
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Hepta Slab', serif;
+}
+
+#title-bar {
+    -webkit-app-region: drag;
+    height:36px; 
+
+    background-color: #262831;
+    padding: none;
+    margin: 0px; 
+}
+   
+#title {
+    position: fixed;
+    top: 0px;
+    left: 6px; 
+}
+   
 
 /* 
 #e19ef5  vivo
