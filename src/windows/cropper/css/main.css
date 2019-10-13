@@ -6,8 +6,35 @@ body{
     overflow:hidden;
 }
 
+button {
+    background-color: #a3eea0; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+#ui-bar{
+    width: 100%;
+    text-align: center;
+    margin: 9px 0px;
+}
+
+.btn-danger{
+    background-color: #d9392a;
+}
+
 .croper{
     width: 100%;
+    height: 70% !important;
+}
+
+.container{
+    width: 100%;
+    height: 70% !important;
 }
 
 .hide{

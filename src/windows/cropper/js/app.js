@@ -55,6 +55,30 @@ function cropNextImage() {
      }
 }
 
+function skipNextImage() {
+     if (count == 0) {
+          filesToCrop.shift()
+          cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+     } else if (count == 1) {
+          filesToCrop.shift()
+          cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+     } else {
+          filesToCrop.shift()
+          cropper.replace(`${filesDir}/${filesToCrop[0]}`)
+     }
+
+     count++;
+     sendPictureToCut()
+     flushSend()
+     setTimeout(() => { cropper.clear(); }, 50);
+     if (filesToCrop.length == 0) {
+          hideCanvas()
+          //sendPictureToCut()
+          hideUI()
+          cropper.destroy()
+     }
+}
+
 function hideCanvas() {
      document.getElementById('croper').style.display = "none";
 }
@@ -92,14 +116,16 @@ function flushData() {
 
 function start() {
      showCanvas()
+     
      let width = this.offsetWidth;
      let height = this.offsetHeight;
-
+     console.log(width)
+     console.log(height)
      canvas.width = width;
-     canvas.height = height;
+     canvas.height = height + 420;
      canvas.getContext('2d').drawImage(
           this,
-          0, 0, this.naturalWidth, this.naturalHeight,
+          0, 0, this.naturalWidth , this.naturalHeight ,
           0, 0, width, height
      );
 
