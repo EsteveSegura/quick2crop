@@ -116,7 +116,6 @@ function flushData() {
 
 function start() {
      showCanvas()
-     
      let width = this.offsetWidth;
      let height = this.offsetHeight;
      console.log(width)
