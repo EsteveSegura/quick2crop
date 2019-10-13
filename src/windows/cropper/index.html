@@ -24,8 +24,11 @@
         src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMzk2fQ&w=1000&q=80"
         alt="Picture">
     </div>
-    <h3>Quick2Crop</h3>
-    <button onclick="cropNextImage()">Next</button>
+    
+    <div>
+      <button onclick="cropNextImage()">Next</button>
+      <button onclick="saveProcess()">Save process</button>
+    </div>
     <div id="croper" class="img-container croper">
       <canvas id="canvas"></canvas>
     </div>
@@ -95,6 +98,13 @@
         hideUI()
         cropper.destroy()
       }
+    }
+
+    function saveProcess(){
+      hideCanvas()
+      sendPictureToCut()
+      hideUI()
+      cropper.destroy()
     }
 
     function hideCanvas() {
