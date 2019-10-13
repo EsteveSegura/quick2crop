@@ -10,11 +10,11 @@ function getFilesInDir(folder){
             files = files.filter((filesInFolder) => {
                 if(filesInFolder.includes(".jpg") || filesInFolder.includes(".png") || filesInFolder.includes(".jpeg")){
                     if(!filesInFolder.includes("crop_") ){
-                        console.log(filesInFolder)
                         return filesInFolder
                     }
                 }
             })
+            
             resolve(files)
         });
     })
