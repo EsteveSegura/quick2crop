@@ -43,14 +43,18 @@
     }
 
     ipcRenderer.on('getFiles', (event, files) => {
+      flushData()
       let image = document.getElementById('image');
       filesToCrop = files.files;
       filesDir = files.dir;
       image.src = `${filesDir}/${filesToCrop[0]}`
-      if(image.complete) {
-        start.call(image);
-      }else{
-        image.onload = start;
+      if(count == 0){
+        count = 0;
+        if(image.complete) {
+          start.call(image);
+        }else{
+          image.onload = start;
+        }
       }
     });
 
@@ -71,18 +75,35 @@
       setTimeout(() => { cropper.clear(); }, 100);
       count++;
       if(filesToCrop.length==0){
-        let canvasDiv = document.getElementById('croper')
-        cropper.destroy()
-        canvasDiv.parentNode.removeChild(canvasDiv)
+        hideCanvas()
         sendPictureToCut()
+        cropper.destroy()
       }
+    }
+
+    function hideCanvas(){
+      document.getElementById('croper').style.display = "none";
+    }
+
+    function showCanvas(){
+      if(count != 0){
+      }
+      document.getElementById('croper').style.display = "block";
     }
 
     function sendPictureToCut(){
       ipcRenderer.send('filesToCrop', dataFilesCropped)
     }
 
+    function flushData(){
+      dataFilesCropped = [];
+      filesToCrop = [];
+      actualCrop = {};
+      filesDir = "";
+    }
+
     function start() {
+      showCanvas()
       let width = this.offsetWidth;
       let height = this.offsetHeight;
 
