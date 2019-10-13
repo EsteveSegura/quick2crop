@@ -25,7 +25,7 @@
         alt="Picture">
     </div>
     
-    <div>
+    <div id="ui-bar">
       <button onclick="cropNextImage()">Next</button>
       <button onclick="saveProcess()">Save process</button>
     </div>
@@ -88,13 +88,15 @@
         filesToCrop.shift()
         cropper.replace(`${filesDir}/${filesToCrop[0]}`)
       }
-
+      
       dataFilesCropped.push(actualCrop);
       setTimeout(() => { cropper.clear(); }, 50);
       count++;
+      sendPictureToCut()
+      flushSend()
       if (filesToCrop.length == 0) {
         hideCanvas()
-        sendPictureToCut()
+        //sendPictureToCut()
         hideUI()
         cropper.destroy()
       }
@@ -102,7 +104,7 @@
 
     function saveProcess(){
       hideCanvas()
-      sendPictureToCut()
+      //sendPictureToCut()
       hideUI()
       cropper.destroy()
     }
@@ -136,6 +138,10 @@
       filesToCrop = [];
       actualCrop = {};
       filesDir = "";
+    }
+
+    function flushSend(){
+      dataFilesCropped = [];
     }
 
     function start() {

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu, dialog } = require('electron')
 const utils = require('./utils');
 
 let win
+let actualDir;
 
 function createWindow() {
   // Crea la ventana del navegador.
@@ -76,12 +77,31 @@ function createWindow() {
 app.on('ready', createWindow)
 
 ipcMain.on('filesToCrop', async(event, arg) => {
-  console.log(arg) // prints "ping"
+  //console.log(arg) // prints "ping"
   for(let i = 0 ; i < arg.length ; i++){
+    console.log(arg[i].fileName.split('/')[0])
     await utils.cropImage(arg[i].fileName,arg[i].x,arg[i].y,arg[i].width,arg[i].height)
+    if(i == arg.length - 1){
+      console.log("END")
+      //await loading(arg[i].fileName.split('/')[0])
+    }
   }
-
 })
+
+async function loading(dir){
+  let count = await utils.getLengthFilesInDirFiltered(dir)
+  console.log(count)
+  let countPresent = await utils.getLengthFilesInDirFiltered(dir)
+  console.log(countPresent)
+  while(count != countPresent/2){
+    
+    countPresent = await utils.getLengthFilesInDir(dir) 
+    console.log(count + "---OLD")
+    console.log(countPresent/2 + "---PRESENT / 2")
+    console.log(countPresent + "---PRESENT")
+  }
+  
+}
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
