@@ -103,6 +103,7 @@ async function loading(dir){
   
 }
 
+//mac
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
